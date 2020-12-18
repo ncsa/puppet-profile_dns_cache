@@ -1,9 +1,9 @@
 
 # profile_dns_cache
 
-Welcome to your new module. A short overview of the generated parts can be found in the PDK documentation at https://puppet.com/pdk/latest/pdk_generating_modules.html .
+Installs unbound and configures DNS resolution.
 
-The README template below provides a starting point with details about what information to include in your README.
+This was ported from a custom module used by LSST at NCSA and is currently untested.
 
 #### Table of Contents
 
