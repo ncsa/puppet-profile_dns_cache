@@ -1,0 +1,30 @@
+# unbound.conf: Managed by Puppet
+server:
+        interface: 127.0.0.1
+        port: 53
+        do-ip6: no
+        logfile: <%= $unbound::log_file %>
+        log-queries: no
+        statistics-interval: 3600
+	# Begin local-zone entries (to prevent Unbound)
+	# from doing reverse DNS lookups for local IP
+	# ranges using the wrong servers.
+<% $unbound::reverse_overrides.each |$reverse_override| { -%>
+	local-zone: "<%= $reverse_override[0] %>" nodefault
+<% } -%>
+ 
+forward-zone:
+        name: "." # Forward all
+<% $unbound::forward_servers.each |$forward_server| { -%>
+        forward-addr: <%= $forward_server[server] %> 	# <%= $forward_server[comment] %>
+<% } -%>
+
+# Begin stub-zone definitions to let Unbound know where
+# to go for authoritative data on local reverse lookups.
+<% $unbound::reverse_overrides.each |$reverse_override| { -%>
+stub-zone:
+	name: "<%= $reverse_override[0] %>"
+<% $reverse_override[1,-1].each |$reverse_override_stub_addr| { -%>
+	stub-addr: <%= $reverse_override_stub_addr %>
+<% } -%>
+<% } -%>
