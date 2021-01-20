@@ -1,21 +1,21 @@
 ---
 
-unbound::log_file: '/var/log/unbound.log'
-unbound::local_domain: 'ncsa.illinois.edu'
-unbound::search_domains:
+profile_dns_cache::log_file: '/var/log/unbound.log'
+profile_dns_cache::local_domain: 'ncsa.illinois.edu'
+profile_dns_cache::search_domains:
      - 'ncsa.illinois.edu'
      - 'internal.ncsa.edu'
-unbound::forward_servers:
+profile_dns_cache::forward_servers:
      - server: '141.142.2.2'
        comment: 'NCSA primary'
      - server: '141.142.230.144'
        comment: 'NCSA secondary'
-unbound::backup_dns_servers:
+profile_dns_cache::backup_dns_servers:
      - server: '141.142.2.2'
        comment: 'NCSA primary'
      - server: '141.142.230.144' # '130.126.2.131'
        comment: 'NCSA secondary' # 'campus DNS'
-unbound::reverse_overrides:
+profile_dns_cache::reverse_overrides:
      - [192.10.in-addr.arpa., 130.126.2.131]
      - [193.10.in-addr.arpa., 130.126.2.131]
      - [194.10.in-addr.arpa., 130.126.2.131]

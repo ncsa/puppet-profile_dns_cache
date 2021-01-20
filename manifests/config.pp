@@ -17,7 +17,7 @@ class profile_dns_cache::config {
     require => Package['unbound'],
   }
 
-  file { $unbound::log_file:
+  file { $profile_dns_cache::log_file:
     ensure  => file,
     owner   => 'unbound',
     group   => 'unbound',

@@ -1,10 +1,10 @@
 # resolv.conf: Managed by Puppet
-<% if $unbound::local_domain != 'none' { -%>
-domain <%= $unbound::local_domain %>
+<% if $profile_dns_cache::local_domain != 'none' { -%>
+domain <%= $profile_dns_cache::local_domain %>
 <% } -%>
-search <% $unbound::search_domains.each |$search_domain| { -%> <%= $search_domain %> <% } %>
+search <% $profile_dns_cache::search_domains.each |$search_domain| { -%> <%= $search_domain %> <% } %>
 nameserver 127.0.0.1       # Unbound
-<% $unbound::backup_dns_servers[0,2].each |$backup_dns_server| { -%>
+<% $profile_dns_cache::backup_dns_servers[0,2].each |$backup_dns_server| { -%>
 nameserver <%= $backup_dns_server[server] %> 	# <%= $backup_dns_server[comment] %>
 <% } -%>
 options timeout:1 attempts:1
