@@ -25,6 +25,11 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
+      - name: puppet-parser-validate-action
+        # You may pin to the exact commit or the version.
+        # uses: irasnyd/puppet-parser-validate-action@6d7b8311c998c1871fbc86a5063a5d634cc9eac6
+        uses: irasnyd/puppet-parser-validate-action@5.5.19
+
       - name: puppet-lint-action
         # You may pin to the exact commit or the version.
         # uses: ScottBrenner/puppet-lint-action@963301579697158f9b22c62eeb5e426edaabb6e8
