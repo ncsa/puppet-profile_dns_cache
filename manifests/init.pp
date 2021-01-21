@@ -34,4 +34,13 @@ class profile_dns_cache (
       fail('backup_dns_servers is not valid, please see init.pp for specification')
   }
 
+# THE FOLLOWING IS A TEST OF GITHUB ACTIONS AND CODE SCANNERS
+      INCLUDE ::TEST
+
+THIS IS A BROKEN CODE
+
+VARIABLE1=123
+VARIABLE2='123'
+VARIABLE3="123"
+
 }
