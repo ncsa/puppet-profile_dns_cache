@@ -1,4 +1,4 @@
-name: Yaml Lint
+name: Yaml Lint (frenck)
 on: [push, pull_request]
 jobs:
   yamllint:
