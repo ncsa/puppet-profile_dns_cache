@@ -1,4 +1,17 @@
-- name: irasnyd/puppet-lint-action
-  # You may pin to the exact commit or the version.
-  # uses: irasnyd/puppet-lint-action@b7fbb6a16c96098ad81b73fa9407d1026be3a0d8
-  uses: irasnyd/puppet-lint-action@1.0
+name: Puppet Lint
+
+on: [push]
+
+jobs:
+  puppet-lint:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: puppet-lint
+      uses: irasnyd/puppet-lint-action@master
+      with:
+        args: ./
