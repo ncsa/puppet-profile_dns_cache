@@ -13,8 +13,10 @@ profile_dns_cache::forward_servers:
 profile_dns_cache::backup_dns_servers:
      - server: '141.142.2.2'
        comment: 'NCSA primary'
-     - server: '141.142.230.144' # '130.126.2.131'
-       comment: 'NCSA secondary' # 'campus DNS'
+     - server: '141.142.230.144'
+       comment: 'NCSA secondary'
+#     - server: '130.126.2.131'
+#       comment: 'campus DNS'
 profile_dns_cache::reverse_overrides:
      - [192.10.in-addr.arpa., 130.126.2.131]
      - [193.10.in-addr.arpa., 130.126.2.131]
