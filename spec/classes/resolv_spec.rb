@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'profile_dns_cache::resolve' do
+describe 'profile_dns_cache::resolv' do
   on_supported_os.each do |os, os_facts|
     context "on #{os}" do
       let(:facts) { os_facts }
