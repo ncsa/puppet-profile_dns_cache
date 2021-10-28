@@ -2,6 +2,8 @@
 
 profile_dns_cache::log_file: "/var/log/unbound.log"
 profile_dns_cache::local_domain: "ncsa.illinois.edu"
+profile_dns_cache::interfaces: []
+profile_dns_cache::access_control: []
 profile_dns_cache::search_domains:
   - "ncsa.illinois.edu"
   - "internal.ncsa.edu"

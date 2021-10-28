@@ -1,6 +1,13 @@
 # unbound.conf: Managed by Puppet
 server:
         interface: 127.0.0.1
+<% $profile_dns_cache::interfaces.each |$interface| { -%>
+        interface: <%= $interface %>
+<% } -%>
+        access-control: 127.0.0.0/8 allow
+<% $profile_dns_cache::access_control.each |$access_control| { -%>
+        access-control: <%= $access_control[net] %> <%= $access_control[action] %> 
+<% } -%>
         port: 53
         do-ip6: no
         logfile: <%= $profile_dns_cache::log_file %>

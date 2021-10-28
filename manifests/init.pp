@@ -40,6 +40,38 @@
 #
 #   Each stub-zone can have one or more stub-addr(s) 
 #
+# @param interfaces
+#   Sets up unbound to listen for incoming connections from external hosts on
+#   the interface(s) specified.
+#
+#   Format is array of one or more ip addresses
+#
+# @param access_control
+#   Configures access-control statements in unbound config. Used to control external access
+#   when a host is setup to be an unbound server
+#
+#   Format is array of hashes of the form:
+#   [ { net => 'NET_CIDR', action => 'ACTION' } , ... ]
+#
+#   Where NET_CIDR is an IP/mask, ex: 192.168.1.0/24
+#
+#   Where ACTION is any action allowed in unbound.conf, including :
+#   deny, refuse, deny_non_local, refuse_non_local, allow, allow_setrd or allow_snoop.
+#   See also `man unbound`
+#   
+#   Also controls iptables, access_controls that match any of the allow* actions get a firewall
+#   rule added allowing the NET_CIDR given in `net`
+#
+#   Example hiera config
+#   ```
+#     ---
+#     profile_dns_cache::access_control:
+#       - net: "192.168.1.0/24"
+#         action: "allow"
+#       - net: "10.0.0.0/8"
+#         action: "deny"
+#   ```
+#
 class profile_dns_cache (
   # PARAMETERS
   String $log_file,
@@ -48,6 +80,8 @@ class profile_dns_cache (
   Array $forward_servers,
   Array $backup_dns_servers,
   Array $reverse_overrides,
+  Array $interfaces,
+  Array $access_control,
 )
 {
 
@@ -60,6 +94,16 @@ class profile_dns_cache (
   # MAKE SURE backup_dns_servers HAS NO MORE THAN 2 SERVERS
   if $backup_dns_servers !~ Array[Hash, 0, 2] {
       fail('backup_dns_servers is not valid, please see init.pp for specification')
+  }
+
+
+  # Setup unbound server if required hiera variables are provided
+  if ($access_control.empty) and ($interfaces.empty) {
+      {} # do nothing
+  } elsif (!$access_control.empty) and (!$interfaces.empty) {
+      include profile_dns_cache::firewall
+  } else {
+      fail('Either profile_dns_cache::interfaces and profile_dns_cache::access_control must both be set or neither be set')
   }
 
 }
