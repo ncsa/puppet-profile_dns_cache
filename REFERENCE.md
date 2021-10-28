@@ -8,13 +8,14 @@
 
 * [`profile_dns_cache`](#profile_dns_cache): Configures /etc/resolv.conf and installs/configs unbound
 * [`profile_dns_cache::config`](#profile_dns_cacheconfig): Configure unbound
+* [`profile_dns_cache::firewall`](#profile_dns_cachefirewall): Open firewall when unbound is being setup as a server
 * [`profile_dns_cache::install`](#profile_dns_cacheinstall): Installs the unbound package
 * [`profile_dns_cache::resolv`](#profile_dns_cacheresolv): Configures DNS using resolv.conf
 * [`profile_dns_cache::service`](#profile_dns_cacheservice): Sets up the unbound service
 
 ## Classes
 
-### `profile_dns_cache`
+### <a name="profile_dns_cache"></a>`profile_dns_cache`
 
 Configures /etc/resolv.conf and installs/configs unbound
 
@@ -28,27 +29,36 @@ include profile_dns_cache
 
 #### Parameters
 
-The following parameters are available in the `profile_dns_cache` class.
+The following parameters are available in the `profile_dns_cache` class:
 
-##### `log_file`
+* [`log_file`](#log_file)
+* [`local_domain`](#local_domain)
+* [`search_domains`](#search_domains)
+* [`forward_servers`](#forward_servers)
+* [`backup_dns_servers`](#backup_dns_servers)
+* [`reverse_overrides`](#reverse_overrides)
+* [`interfaces`](#interfaces)
+* [`access_control`](#access_control)
+
+##### <a name="log_file"></a>`log_file`
 
 Data type: `String`
 
 Path to unbound log file, e.g., '/var/log/unbound.log'
 
-##### `local_domain`
+##### <a name="local_domain"></a>`local_domain`
 
 Data type: `String`
 
 (optional) sets domain in resolv.conf, e.g., 'yahoo.com', or 'none' for none
 
-##### `search_domains`
+##### <a name="search_domains"></a>`search_domains`
 
 Data type: `Array`
 
 Sets search domains in resolv.conf, e.g., 'google.com'
 
-##### `forward_servers`
+##### <a name="forward_servers"></a>`forward_servers`
 
 Data type: `Array`
 
@@ -57,7 +67,7 @@ List of servers unbound will forward to
 Format is array of hashes of the form:
 [ { server => 'IP_ADDRESS', comment => 'COMMENT' } , ... ]
 
-##### `backup_dns_servers`
+##### <a name="backup_dns_servers"></a>`backup_dns_servers`
 
 Data type: `Array`
 
@@ -71,7 +81,7 @@ as the max num of nameserver entries for resolv.conf is currently
 3 and the first will be Unbound on the local server,
 see http://man7.org/linux/man-pages/man5/resolv.conf.5.html
 
-##### `reverse_overrides`
+##### <a name="reverse_overrides"></a>`reverse_overrides`
 
 Data type: `Array`
 
@@ -83,7 +93,45 @@ Array of arrays of the form:
 
 Each stub-zone can have one or more stub-addr(s)
 
-### `profile_dns_cache::config`
+##### <a name="interfaces"></a>`interfaces`
+
+Data type: `Array`
+
+Sets up unbound to listen for incoming connections from external hosts on
+the interface(s) specified.
+
+Format is array of one or more ip addresses
+
+##### <a name="access_control"></a>`access_control`
+
+Data type: `Array`
+
+Configures access-control statements in unbound config. Used to control external access
+when a host is setup to be an unbound server
+
+Format is array of hashes of the form:
+[ { net => 'NET_CIDR', action => 'ACTION' } , ... ]
+
+Where NET_CIDR is an IP/mask, ex: 192.168.1.0/24
+
+Where ACTION is any action allowed in unbound.conf, including :
+deny, refuse, deny_non_local, refuse_non_local, allow, allow_setrd or allow_snoop.
+See also `man unbound`
+
+Also controls iptables, access_controls that match any of the allow* actions get a firewall
+rule added allowing the NET_CIDR given in `net`
+
+Example hiera config
+```
+  ---
+  profile_dns_cache::access_control:
+    - net: "192.168.1.0/24"
+      action: "allow"
+    - net: "10.0.0.0/8"
+      action: "deny"
+```
+
+### <a name="profile_dns_cacheconfig"></a>`profile_dns_cache::config`
 
 Configure unbound
 
@@ -95,7 +143,11 @@ Configure unbound
 include profile_dns_cache::config
 ```
 
-### `profile_dns_cache::install`
+### <a name="profile_dns_cachefirewall"></a>`profile_dns_cache::firewall`
+
+Open firewall when unbound is being setup as a server
+
+### <a name="profile_dns_cacheinstall"></a>`profile_dns_cache::install`
 
 Installs the unbound package
 
@@ -107,7 +159,7 @@ Installs the unbound package
 include profile_dns_cache::install
 ```
 
-### `profile_dns_cache::resolv`
+### <a name="profile_dns_cacheresolv"></a>`profile_dns_cache::resolv`
 
 Configures DNS using resolv.conf
 
@@ -119,7 +171,7 @@ Configures DNS using resolv.conf
 include profile_dns_cache::resolve
 ```
 
-### `profile_dns_cache::service`
+### <a name="profile_dns_cacheservice"></a>`profile_dns_cache::service`
 
 Sets up the unbound service
 
