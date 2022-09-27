@@ -31,76 +31,15 @@ include profile_dns_cache
 
 The following parameters are available in the `profile_dns_cache` class:
 
-* [`log_file`](#log_file)
-* [`local_domain`](#local_domain)
-* [`search_domains`](#search_domains)
-* [`forward_servers`](#forward_servers)
-* [`backup_dns_servers`](#backup_dns_servers)
-* [`reverse_overrides`](#reverse_overrides)
-* [`interfaces`](#interfaces)
 * [`access_control`](#access_control)
-
-##### <a name="log_file"></a>`log_file`
-
-Data type: `String`
-
-Path to unbound log file, e.g., '/var/log/unbound.log'
-
-##### <a name="local_domain"></a>`local_domain`
-
-Data type: `String`
-
-(optional) sets domain in resolv.conf, e.g., 'yahoo.com', or 'none' for none
-
-##### <a name="search_domains"></a>`search_domains`
-
-Data type: `Array`
-
-Sets search domains in resolv.conf, e.g., 'google.com'
-
-##### <a name="forward_servers"></a>`forward_servers`
-
-Data type: `Array`
-
-List of servers unbound will forward to
-
-Format is array of hashes of the form:
-[ { server => 'IP_ADDRESS', comment => 'COMMENT' } , ... ]
-
-##### <a name="backup_dns_servers"></a>`backup_dns_servers`
-
-Data type: `Array`
-
-Sets backup nameserver(s) in resolv.conf
-
-Format is array of hashes of the form:
-[ { server => 'IP_ADDRESS', comment => 'COMMENT' } , ... ]
-
-Only the first two will be considered, any more will be ignored
-as the max num of nameserver entries for resolv.conf is currently
-3 and the first will be Unbound on the local server,
-see http://man7.org/linux/man-pages/man5/resolv.conf.5.html
-
-##### <a name="reverse_overrides"></a>`reverse_overrides`
-
-Data type: `Array`
-
-Sets up an unbound local-zone and accompanying stub-zone to serve as an override
-for reverse dns lookups
-
-Array of arrays of the form:
-[ [ 'STUB_ZONE_NAME', 'STUB-ADDR_FOR_ZONE' ] , ... ]
-
-Each stub-zone can have one or more stub-addr(s)
-
-##### <a name="interfaces"></a>`interfaces`
-
-Data type: `Array`
-
-Sets up unbound to listen for incoming connections from external hosts on
-the interface(s) specified.
-
-Format is array of one or more ip addresses
+* [`backup_dns_servers`](#backup_dns_servers)
+* [`enable_harden_dnssec_stripped`](#enable_harden_dnssec_stripped)
+* [`forward_servers`](#forward_servers)
+* [`interfaces`](#interfaces)
+* [`local_domain`](#local_domain)
+* [`log_file`](#log_file)
+* [`reverse_overrides`](#reverse_overrides)
+* [`search_domains`](#search_domains)
 
 ##### <a name="access_control"></a>`access_control`
 
@@ -130,6 +69,81 @@ Example hiera config
     - net: "10.0.0.0/8"
       action: "deny"
 ```
+
+##### <a name="backup_dns_servers"></a>`backup_dns_servers`
+
+Data type: `Array`
+
+Sets backup nameserver(s) in resolv.conf
+
+Format is array of hashes of the form:
+[ { server => 'IP_ADDRESS', comment => 'COMMENT' } , ... ]
+
+Only the first two will be considered, any more will be ignored
+as the max num of nameserver entries for resolv.conf is currently
+3 and the first will be Unbound on the local server,
+see http://man7.org/linux/man-pages/man5/resolv.conf.5.html
+
+##### <a name="enable_harden_dnssec_stripped"></a>`enable_harden_dnssec_stripped`
+
+Data type: `Boolean`
+
+Sets the unbound.conf global setting 'harden-dnssec-stripped' to yes or no
+
+Default for unbound.conf is yes, so you will only see this config setting
+in unbound.conf if you set it to false in hiera
+
+Note that in almost all cases you should leave this at the default of true, otherwise
+you weaken DNSSEC. Would only need it if you point to DNS servers that don't offer
+all/any DNSSEC protections
+
+##### <a name="forward_servers"></a>`forward_servers`
+
+Data type: `Array`
+
+List of servers unbound will forward to
+
+Format is array of hashes of the form:
+[ { server => 'IP_ADDRESS', comment => 'COMMENT' } , ... ]
+
+##### <a name="interfaces"></a>`interfaces`
+
+Data type: `Array`
+
+Sets up unbound to listen for incoming connections from external hosts on
+the interface(s) specified.
+
+Format is array of one or more ip addresses
+
+##### <a name="local_domain"></a>`local_domain`
+
+Data type: `String`
+
+(optional) sets domain in resolv.conf, e.g., 'yahoo.com', or 'none' for none
+
+##### <a name="log_file"></a>`log_file`
+
+Data type: `String`
+
+Path to unbound log file, e.g., '/var/log/unbound.log'
+
+##### <a name="reverse_overrides"></a>`reverse_overrides`
+
+Data type: `Array`
+
+Sets up an unbound local-zone and accompanying stub-zone to serve as an override
+for reverse dns lookups
+
+Array of arrays of the form:
+[ [ 'STUB_ZONE_NAME', 'STUB-ADDR_FOR_ZONE' ] , ... ]
+
+Each stub-zone can have one or more stub-addr(s)
+
+##### <a name="search_domains"></a>`search_domains`
+
+Data type: `Array`
+
+Sets search domains in resolv.conf, e.g., 'google.com'
 
 ### <a name="profile_dns_cacheconfig"></a>`profile_dns_cache::config`
 
