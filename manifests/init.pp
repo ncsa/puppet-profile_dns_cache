@@ -5,47 +5,6 @@
 # @example
 #   include profile_dns_cache
 #
-# @param log_file
-#   Path to unbound log file, e.g., '/var/log/unbound.log'
-#
-# @param local_domain
-#   (optional) sets domain in resolv.conf, e.g., 'yahoo.com', or 'none' for none
-#
-# @param search_domains
-#   Sets search domains in resolv.conf, e.g., 'google.com'
-#
-# @param forward_servers
-#   List of servers unbound will forward to
-#
-#   Format is array of hashes of the form:
-#   [ { server => 'IP_ADDRESS', comment => 'COMMENT' } , ... ]
-#
-# @param backup_dns_servers
-#   Sets backup nameserver(s) in resolv.conf
-#   
-#   Format is array of hashes of the form:
-#   [ { server => 'IP_ADDRESS', comment => 'COMMENT' } , ... ]
-#   
-#   Only the first two will be considered, any more will be ignored
-#   as the max num of nameserver entries for resolv.conf is currently
-#   3 and the first will be Unbound on the local server,
-#   see http://man7.org/linux/man-pages/man5/resolv.conf.5.html
-#
-# @param reverse_overrides
-#   Sets up an unbound local-zone and accompanying stub-zone to serve as an override
-#   for reverse dns lookups
-#
-#   Array of arrays of the form:
-#   [ [ 'STUB_ZONE_NAME', 'STUB-ADDR_FOR_ZONE' ] , ... ]
-#
-#   Each stub-zone can have one or more stub-addr(s) 
-#
-# @param interfaces
-#   Sets up unbound to listen for incoming connections from external hosts on
-#   the interface(s) specified.
-#
-#   Format is array of one or more ip addresses
-#
 # @param access_control
 #   Configures access-control statements in unbound config. Used to control external access
 #   when a host is setup to be an unbound server
@@ -72,16 +31,68 @@
 #         action: "deny"
 #   ```
 #
+# @param backup_dns_servers
+#   Sets backup nameserver(s) in resolv.conf
+#   
+#   Format is array of hashes of the form:
+#   [ { server => 'IP_ADDRESS', comment => 'COMMENT' } , ... ]
+#   
+#   Only the first two will be considered, any more will be ignored
+#   as the max num of nameserver entries for resolv.conf is currently
+#   3 and the first will be Unbound on the local server,
+#   see http://man7.org/linux/man-pages/man5/resolv.conf.5.html
+#
+# @param enable_harden_dnssec_stripped
+#   Sets the unbound.conf global setting 'harden-dnssec-stripped' to yes or no
+#
+#   Default for unbound.conf is yes, so you will only see this config setting
+#   in unbound.conf if you set it to false in hiera
+#
+#   Note that in almost all cases you should leave this at the default of true, otherwise
+#   you weaken DNSSEC. Would only need it if you point to DNS servers that don't offer
+#   all/any DNSSEC protections
+#
+# @param forward_servers
+#   List of servers unbound will forward to
+#
+#   Format is array of hashes of the form:
+#   [ { server => 'IP_ADDRESS', comment => 'COMMENT' } , ... ]
+#
+# @param interfaces
+#   Sets up unbound to listen for incoming connections from external hosts on
+#   the interface(s) specified.
+#
+#   Format is array of one or more ip addresses
+#
+# @param local_domain
+#   (optional) sets domain in resolv.conf, e.g., 'yahoo.com', or 'none' for none
+#
+# @param log_file
+#   Path to unbound log file, e.g., '/var/log/unbound.log'
+#
+# @param reverse_overrides
+#   Sets up an unbound local-zone and accompanying stub-zone to serve as an override
+#   for reverse dns lookups
+#
+#   Array of arrays of the form:
+#   [ [ 'STUB_ZONE_NAME', 'STUB-ADDR_FOR_ZONE' ] , ... ]
+#
+#   Each stub-zone can have one or more stub-addr(s) 
+#
+# @param search_domains
+#   Sets search domains in resolv.conf, e.g., 'google.com'
+#
 class profile_dns_cache (
   # PARAMETERS
-  String $log_file,
-  String $local_domain,
-  Array $search_domains,
-  Array $forward_servers,
-  Array $backup_dns_servers,
-  Array $reverse_overrides,
-  Array $interfaces,
-  Array $access_control,
+  Array   $access_control,
+  Array   $backup_dns_servers,
+  Boolean $enable_harden_dnssec_stripped,
+  Array   $forward_servers,
+  Array   $interfaces,
+  String  $local_domain,
+  String  $log_file,
+  Array   $reverse_overrides,
+  Array   $search_domains,
 )
 {
 

@@ -1,17 +1,6 @@
 ---
 
-profile_dns_cache::log_file: "/var/log/unbound.log"
-profile_dns_cache::local_domain: "ncsa.illinois.edu"
-profile_dns_cache::interfaces: []
 profile_dns_cache::access_control: []
-profile_dns_cache::search_domains:
-  - "ncsa.illinois.edu"
-  - "internal.ncsa.edu"
-profile_dns_cache::forward_servers:
-  - server: "141.142.2.2"
-    comment: "NCSA primary"
-  - server: "141.142.230.144"
-    comment: "NCSA secondary"
 profile_dns_cache::backup_dns_servers:
   - server: "141.142.2.2"
     comment: "NCSA primary"
@@ -19,6 +8,15 @@ profile_dns_cache::backup_dns_servers:
     comment: "NCSA secondary"
 # - server: "130.126.2.131"
 #   comment: "campus DNS"
+profile_dns_cache::enable_harden_dnssec_stripped: true
+profile_dns_cache::forward_servers:
+  - server: "141.142.2.2"
+    comment: "NCSA primary"
+  - server: "141.142.230.144"
+    comment: "NCSA secondary"
+profile_dns_cache::interfaces: []
+profile_dns_cache::local_domain: "ncsa.illinois.edu"
+profile_dns_cache::log_file: "/var/log/unbound.log"
 profile_dns_cache::reverse_overrides:
   - ["192.10.in-addr.arpa.", "130.126.2.131"]
   - ["193.10.in-addr.arpa.", "130.126.2.131"]
@@ -101,3 +99,6 @@ profile_dns_cache::reverse_overrides:
   - ["29.172.in-addr.arpa.", "141.142.2.2", "141.142.230.144"]
   - ["30.172.in-addr.arpa.", "141.142.2.2", "141.142.230.144"]
   - ["31.172.in-addr.arpa.", "141.142.2.2", "141.142.230.144"]
+profile_dns_cache::search_domains:
+  - "ncsa.illinois.edu"
+  - "internal.ncsa.edu"

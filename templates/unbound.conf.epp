@@ -17,6 +17,9 @@ server:
         hide-identity: yes
         hide-version: yes
         <%- } -%>
+        <%- if !$profile_dns_cache::enable_harden_dnssec_stripped { -%>
+        harden-dnssec-stripped: no
+        <%- } -%>
 	# Begin local-zone entries (to prevent Unbound)
 	# from doing reverse DNS lookups for local IP
 	# ranges using the wrong servers.
