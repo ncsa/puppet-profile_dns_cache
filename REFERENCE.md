@@ -6,18 +6,18 @@
 
 ### Classes
 
-* [`profile_dns_cache`](#profile_dns_cache): Configures /etc/resolv.conf and installs/configs unbound
+* [`profile_dns_cache`](#profile_dns_cache): Configures resolv.conf and installs/configs unbound
 * [`profile_dns_cache::config`](#profile_dns_cacheconfig): Configure unbound
 * [`profile_dns_cache::firewall`](#profile_dns_cachefirewall): Open firewall when unbound is being setup as a server
 * [`profile_dns_cache::install`](#profile_dns_cacheinstall): Installs the unbound package
-* [`profile_dns_cache::resolv`](#profile_dns_cacheresolv): Configures DNS using resolv.conf
+* [`profile_dns_cache::resolv`](#profile_dns_cacheresolv): Configures DNS using /etc/resolv.conf.unbound and symlinks to /etc/resolv.conf (to exclude NetworkManager management)
 * [`profile_dns_cache::service`](#profile_dns_cacheservice): Sets up the unbound service
 
 ## Classes
 
 ### <a name="profile_dns_cache"></a>`profile_dns_cache`
 
-Configures /etc/resolv.conf and installs/configs unbound
+Configures resolv.conf and installs/configs unbound
 
 #### Examples
 
@@ -175,7 +175,7 @@ include profile_dns_cache::install
 
 ### <a name="profile_dns_cacheresolv"></a>`profile_dns_cache::resolv`
 
-Configures DNS using resolv.conf
+Configures DNS using /etc/resolv.conf.unbound and symlinks to /etc/resolv.conf (to exclude NetworkManager management)
 
 #### Examples
 

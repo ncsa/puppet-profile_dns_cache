@@ -1,4 +1,4 @@
-# @summary Configures /etc/resolv.conf and installs/configs unbound
+# @summary Configures resolv.conf and installs/configs unbound
 #
 # @author Based on work by Bill Glick; adapted by Jake Rundall.
 #
