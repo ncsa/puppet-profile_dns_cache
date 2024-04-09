@@ -4,7 +4,6 @@
 # @example
 #   include profile_dns_cache::resolve
 class profile_dns_cache::resolv {
-
   ## CONFIGURE RESOLV.CONF
 
   file { '/etc/resolv.conf':
@@ -14,5 +13,4 @@ class profile_dns_cache::resolv {
     group   => 'root',
     mode    => '0644',
   }
-
 }

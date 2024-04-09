@@ -1,7 +1,7 @@
-class {'profile_dns_cache':
+class { 'profile_dns_cache':
   log_file           => '/var/log/unbound.log',
   local_domain       => 'foo.com',
-  search_domains     => [ 'foo.com', 'goo.com' ],
+  search_domains     => ['foo.com', 'goo.com'],
   forward_servers    => [
     { server => '8.8.8.8', comment => 'Google primary' },
     { server => '8.8.4.4', comment => 'Google secondary' },

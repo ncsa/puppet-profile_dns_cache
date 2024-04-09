@@ -3,12 +3,17 @@
 
 Installs unbound and configures DNS resolution, optionally sets up an unbound server to respond to external queries
 
+## Requirements
+
+- [puppetlabs/stdlib](https://forge.puppet.com/modules/puppetlabs/stdlib/)
+
 ## Reference
  
 ### class profile_dns_cache (
 -  # PARAMETERS
 -  Array   $access_control,
 -  Array   $backup_dns_servers,
+-  Boolean $disable_unbound_anchor
 -  Boolean $enable_harden_dnssec_stripped,
 -  Array   $forward_servers,
 -  Array   $interfaces,
