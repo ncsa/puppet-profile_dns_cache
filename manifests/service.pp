@@ -4,7 +4,6 @@
 # @example
 #   include profile_dns_cache::service
 class profile_dns_cache::service {
-
   ## KEEP THE UNBOUND SERVICE RUNNING
 
   service { 'unbound':
@@ -15,7 +14,6 @@ class profile_dns_cache::service {
     subscribe  => [
       File['/etc/resolv.conf'],
       File['/etc/unbound/conf.d/unbound.conf'],
-    ]
+    ],
   }
-
 }

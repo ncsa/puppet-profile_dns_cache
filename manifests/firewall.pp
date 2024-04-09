@@ -3,11 +3,9 @@
 # Open firewall when unbound is being setup as a server
 #
 class profile_dns_cache::firewall {
-
   $access_control = lookup('profile_dns_cache::access_control')
 
   $access_control.each | $acl | {
-
     # Only open firewall if the acl rule is an allow rule
     if $acl[action] =~ /^allow/ {
       firewall {
@@ -27,5 +25,4 @@ class profile_dns_cache::firewall {
       }
     }
   }
-
 }

@@ -8,6 +8,7 @@ profile_dns_cache::backup_dns_servers:
     comment: "NCSA secondary"
 # - server: "130.126.2.131"
 #   comment: "campus DNS"
+profile_dns_cache::disable_unbound_anchor: false
 profile_dns_cache::enable_harden_dnssec_stripped: true
 profile_dns_cache::forward_servers:
   - server: "141.142.2.2"
